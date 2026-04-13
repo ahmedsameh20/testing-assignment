@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.ahmed</groupId>
-  <artifactId>selenium-ci</artifactId>
+  <artifactId>advanced-selenium-ci</artifactId>
   <version>1.0</version>
 
   <dependencies>
