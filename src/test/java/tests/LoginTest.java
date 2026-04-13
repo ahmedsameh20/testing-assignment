@@ -2,10 +2,13 @@ package tests;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.*;
+import org.openqa.selenium.support.ui.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import pages.LoginPage;
+
+import java.time.Duration;
 
 public class LoginTest {
 
@@ -22,25 +25,26 @@ public class LoginTest {
         WebDriver driver = new ChromeDriver(options);
 
         try {
-            driver.get("http://demo.guru99.com/V4/");
+            driver.get("https://demo.guru99.com/V4/");
 
             LoginPage login = new LoginPage(driver);
             login.login("mngr559943", "AqajysY");
 
+            // ✅ wait احترافي
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-            Thread.sleep(3000);
+            // استنى ظهور كلمة Manager Id
+            wait.until(ExpectedConditions.presenceOfElementLocated(
+                    By.xpath("//td[contains(text(),'Manger Id')]")
+            ));
 
             // ✅ Assertion
-            String pageSource = driver.getPageSource();
-
-            Assert.assertTrue(
-                    pageSource.contains("Manger Id"),
-                    "Login Failed - Text not found"
-            );
+            String text = driver.getPageSource();
+            Assert.assertTrue(text.contains("Manger Id"));
 
         } catch (Exception e) {
             e.printStackTrace();
-            Assert.fail("Test Failed بسبب Exception");
+            Assert.fail("Login Failed بسبب Exception: " + e.getMessage());
         } finally {
             driver.quit();
         }
